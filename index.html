@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boeing 737 MAX - Technical Overview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="icon" href="https://ik.imagekit.io/hswtnwf8i/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg?updatedAt=1761389328415" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #302f2f;
+            --secondary: #e63946;
+            --light: #f1faee;
+            --gray: #a8dadc;
+            --dark: #1d3557;
+            --accent: #457b9d;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            background: url('https://s7d2.scene7.com/is/image/TWCNews/ap203230098682911jpg') no-repeat center;
+            background-size: cover;
+            padding: 6rem 5% 4rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #495057;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #6c757d;
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+            line-height: 1.7;
+        }
+
+        /* Overview Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-top: 3px solid var(--accent);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(69, 123, 157, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: #6c757d;
+        }
+
+        /* Anatomy Section */
+        .anatomy-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .anatomy-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .anatomy-diagram {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .diagram-container {
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .aircraft-diagram {
+            width: 90%;
+            height: 80%;
+            position: relative;
+        }
+
+        .aircraft-body {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 20px;
+        }
+
+        .cockpit {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 40px;
+            background: var(--dark);
+            border-radius: 50% 0 0 50%;
+        }
+
+        .wing {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 15px;
+            background: var(--primary);
+            border-radius: 8px;
+        }
+
+        .wing.left {
+            transform: translate(-50%, -50%) rotate(-5deg);
+            left: 35%;
+        }
+
+        .wing.right {
+            transform: translate(-50%, -50%) rotate(5deg);
+            left: 65%;
+        }
+
+        .engine {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: var(--secondary);
+            border-radius: 50%;
+        }
+
+        .engine.left {
+            top: 60%;
+            left: 35%;
+        }
+
+        .engine.right {
+            top: 60%;
+            left: 65%;
+        }
+
+        .tail {
+            position: absolute;
+            top: 50%;
+            right: 10%;
+            transform: translate(50%, -50%);
+            width: 15px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 8px;
+        }
+
+        .horizontal-stab {
+            position: absolute;
+            top: 70%;
+            right: 15%;
+            transform: translate(50%, -50%);
+            width: 40px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        .anatomy-text h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray);
+        }
+
+        .anatomy-text ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .anatomy-text li {
+            margin-bottom: 0.8rem;
+            color: #495057;
+        }
+
+        .anatomy-text li strong {
+            color: var(--primary);
+        }
+
+        /* Specs Section */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .spec-card {
+            background: white;
+            padding: 1.8rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-top: 3px solid var(--accent);
+        }
+
+        .spec-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .spec-label {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        /* Safety Section */
+        .safety-container {
+            background: white;
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .safety-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .safety-item {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .safety-icon {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(230, 57, 70, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-size: 1.3rem;
+        }
+
+        .safety-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .safety-content p {
+            color: #6c757d;
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            color: #a8dadc;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .anatomy-container {
+                flex-direction: column;
+            }
+            
+            section {
+                padding: 3.5rem 0;
+            }
+            
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <h1>737 MAX Technical Guide</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#anatomy">Anatomy</a></li>
+                    <li><a href="#specs">Specifications</a></li>
+                    <li><a href="#safety">Safety</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Boeing 737 MAX: Technical Overview</h2>
+            <p>A comprehensive guide to the design, systems, and innovations of the Boeing 737 MAX aircraft family</p>
+            <a href="#anatomy" class="btn">Explore Anatomy</a>
+        </div>
+    </section>
+
+    <main>
+        <!-- Overview Section -->
+        <section id="overview">
+            <div class="section-header">
+                <h2>737 MAX Overview</h2>
+                <p>The Boeing 737 MAX is the fourth generation of the Boeing 737, a narrow-body airliner manufactured by Boeing Commercial Airplanes.</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3>Fuel Efficiency</h3>
+                    <p>14% more fuel-efficient than the previous 737NG, thanks to advanced CFM LEAP-1B engines and aerodynamic improvements.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <h3>Aerodynamic Design</h3>
+                    <p>Features distinctive split-tip winglets that reduce drag and improve fuel efficiency by up to 1.5%.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3>Advanced Systems</h3>
+                    <p>Equipped with the Boeing Advanced Technology winglet and redesigned engine nacelles for optimal performance.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anatomy Section -->
+        <section id="anatomy">
+            <div class="section-header">
+                <h2>737 MAX Anatomy</h2>
+                <p>Key components and design features of the Boeing 737 MAX aircraft</p>
+            </div>
+            
+            <div class="anatomy-container">
+                <div class="anatomy-text">
+                    <h3>Key Components Explained</h3>
+                    <ul>
+                        <li><strong>CFM LEAP-1B Engines:</strong> Larger, more efficient engines mounted higher and further forward on the wing to accommodate their size.</li>
+                        <li><strong>Split Scimitar Winglets:</strong> Unique wingtip design that reduces vortex drag, improving fuel efficiency and range.</li>
+                        <li><strong>Maneuvering Characteristics Augmentation System (MCAS):</strong> A flight control system designed to automatically adjust the aircraft's pitch in certain flight conditions.</li>
+                        <li><strong>Redesigned Fuselage:</strong> Features Boeing Sky Interior with LED lighting, larger overhead bins, and improved cabin pressure.</li>
+                        <li><strong>Advanced Avionics:</strong> Includes large displays, enhanced navigation systems, and improved flight management capabilities.</li>
+                    </ul>
+                    
+                    <p>The 737 MAX features a distinctive design with its larger engines positioned further forward and higher on the wing compared to previous 737 models. This required aerodynamic modifications including the addition of the MCAS system to address changes in flight characteristics.</p>
+                </div>
+                
+              
+            </div>
+        </section>
+
+        <!-- Specifications Section -->
+        <section id="specs">
+            <div class="section-header">
+                <h2>Technical Specifications</h2>
+                <p>Detailed performance metrics and dimensions of the Boeing 737 MAX family</p>
+            </div>
+            
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <div class="spec-value">178-230</div>
+                    <div class="spec-label">Passenger Capacity</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">3,300-3,850</div>
+                    <div class="spec-label">Range (nautical miles)</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">42.2m</div>
+                    <div class="spec-label">Length (MAX 8)</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">35.9m</div>
+                    <div class="spec-label">Wingspan</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">41,400 kg</div>
+                    <div class="spec-label">Max Takeoff Weight</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-value">839 km/h</div>
+                    <div class="spec-label">Cruising Speed</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Safety Section -->
+        <section id="safety">
+            <div class="section-header">
+                <h2>Safety Enhancements</h2>
+                <p>Comprehensive safety improvements implemented after the grounding of the 737 MAX fleet</p>
+            </div>
+            
+            <div class="safety-container">
+                <div class="safety-items">
+                    <div class="safety-item">
+                        <div class="safety-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="safety-content">
+                            <h3>MCAS Redesign</h3>
+                            <p>MCAS now relies on input from two angle-of-attack sensors and can only activate once per event. It also compares data from both sensors to ensure validity.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="safety-item">
+                        <div class="safety-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="safety-content">
+                            <h3>Enhanced Training</h3>
+                            <p>Comprehensive pilot training on MCAS functionality, including computer-based training and simulator sessions focused on recognizing and responding to MCAS-related scenarios.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="safety-item">
+                        <div class="safety-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="safety-content">
+                            <h3>System Redundancy</h3>
+                            <p>Additional safeguards including cross-checks between flight control computers and enhanced monitoring systems to prevent erroneous MCAS activation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">737 MAX Technical Guide</div>
+            <p>Comprehensive educational resource about the Boeing 737 MAX aircraft</p>
+            
+            <div class="footer-links">
+                <a href="#overview">Overview</a>
+                <a href="#anatomy">Anatomy</a>
+                <a href="#specs">Specifications</a>
+                <a href="#safety">Safety</a>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 Boeing 737 MAX Technical Guide. This is an educational website. Boeing is a registered trademark of The Boeing Company.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add active class to nav links on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
